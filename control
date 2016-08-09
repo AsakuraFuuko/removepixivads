@@ -1,7 +1,7 @@
 Package: me.9baka.removepixivads
 Name: RemovePixivAds
 Depends: mobilesubstrate
-Version: 0.0.2
+Version: 0.0.3
 Architecture: iphoneos-arm
 Description: remove pixiv ads
 Maintainer: Fuuko

@@ -3,6 +3,25 @@
 #include <dlfcn.h>
 #include <AppList/AppList.h>
 
+// for 5.x
+%hook PIXLoginUserStateManager
+
+- (BOOL) isPremium {
+    return TRUE;
+}
+
+%end // end hook
+
+%hook PIXUserModel
+
+- (BOOL) isPremium {
+    return TRUE;
+}
+
+%end // end hook
+
+
+// for 6.x
 long long _module_base = 0;
 
 // pixiv.AdContainingViewController viewWillAppear
@@ -11,7 +30,7 @@ void new_viewWillAppear(id self, BOOL animated) {
     orig_viewWillAppear(self, animated);
     ((UIView *) MSHookIvar<id>(self, "adContainerView")).hidden = YES;
     ((NSLayoutConstraint *) MSHookIvar<id>(self, "adContainerHeightConstraint")).constant = 0;
-    NSLog(@"pixiv hook success");
+    NSLog(@"pixiv AdContainingViewController viewWillAppear hook success");
 }
 
 // pixiv.AdThumbnailView setView
@@ -20,7 +39,7 @@ void new_setView(id self, id target) {
     orig_setView(self, target);
     NSLog(@"%@", MSHookIvar<id>(self, "view"));
     ((UIView *) MSHookIvar<id>(self, "view")).hidden = YES;
-    NSLog(@"pixiv hook success");
+    NSLog(@"pixiv AdThumbnailView setView hook success");
 }
 
 // pixiv.VideoAdContainingViewController viewWillAppear
@@ -28,7 +47,7 @@ void (*orig_vviewWillAppear)(id self, BOOL animated);
 void new_vviewWillAppear(id self, BOOL animated) {
     orig_vviewWillAppear(self, animated);
     ((UIView *) MSHookIvar<id>(self, "adContainerView")).hidden = YES;
-    NSLog(@"pixiv hook success");
+    NSLog(@"pixiv VideoAdContainingViewController viewWillAppear hook success");
 }
 
 NSString *getPixivVersion() {
@@ -98,8 +117,6 @@ NSString *getPixivVersion() {
                 }
             }
         }
-    } else {
-        // 5.8.7.6556
     }
     
     NSLog(@"pixiv hook end");
