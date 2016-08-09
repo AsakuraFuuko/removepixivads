@@ -1,7 +1,6 @@
 #include <substrate.h>
 #include <mach-o/dyld.h>
 #include <dlfcn.h>
-#include <AppList/AppList.h>
 
 // for 5.x
 %hook PIXLoginUserStateManager
@@ -51,10 +50,9 @@ void new_vviewWillAppear(id self, BOOL animated) {
 }
 
 NSString *getPixivVersion() {
-    ALApplicationList *al = [ALApplicationList sharedApplicationList];
-    NSString *bundleVersion = [al valueForKey:@"bundleVersion" forDisplayIdentifier:@"net.pxv.iphone"];
-    NSLog(@"pixiv bundle Version: %@", bundleVersion);
-    return bundleVersion;
+    NSString *version =[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
+    NSLog(@"pixiv bundle Version: %@", version);
+    return version;
 }
 
 %ctor {

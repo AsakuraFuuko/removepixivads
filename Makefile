@@ -6,7 +6,6 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = removepixivads
 removepixivads_FILES = Tweak.xm
-removepixivads_LIBRARIES = applist
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 
