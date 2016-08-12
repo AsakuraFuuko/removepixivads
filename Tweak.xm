@@ -82,7 +82,9 @@ NSString *getPixivVersion() {
     // 6.0.8.3216 arm64
     [address_dic setObject:[NSArray arrayWithObjects: @0x000000000, @0x000000000, @0x000000000, @0x10038f54c, @0x000000000, @0x000000000, NULL] forKey:@"6.0.8.3216"];
     // 6.0.9.3282 armv7 arm64
-    [address_dic setObject:[NSArray arrayWithObjects: @0x0004089E4, @0x0004D12A4, @0x0000C0814, @0x100399784, @0x100455158, @0x1000a7e78, NULL] forKey:@"6.0.9.3282"];
+    [address_dic setObject:[NSArray arrayWithObjects: @0x0004089e4, @0x0004d12a4, @0x0000c0814, @0x100399784, @0x100455158, @0x1000a7e78, NULL] forKey:@"6.0.9.3282"];
+    // 6.0.11.3288 armv7 arm64
+    [address_dic setObject:[NSArray arrayWithObjects: @0x000407fa4, @0x0004d09fc, @0x0000c03f4, @0x100398ed0, @0x100454888, @0x1000a7614, NULL] forKey:@"6.0.11.3288"];
     
     
     NSString *version = getPixivVersion();
