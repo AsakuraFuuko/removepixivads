@@ -1,2 +1,2 @@
 # removepixivads
-remove pixiv ios ads
+remove ios pixiv ads
