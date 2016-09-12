@@ -45,7 +45,6 @@
 
 - (void) setRootViewController: (UIViewController*) arg1 {
     UIView *view = MSHookIvar<UIView *>(arg1, "adContainerView");
-    NSLog(@"adContainerView %@", view);
     if(view) {
         view.hidden = YES;
         NSLayoutConstraint *heightConstraint;
