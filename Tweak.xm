@@ -39,21 +39,31 @@
 
 // after 6.0.9
 %hook ADGManagerViewController
-- (void) setAdView: (id) arg1 {
+- (void) setAdView: (UIView *) view {
     
 }
 
-- (id) initWithAdParams: (id) params adView: (UIView *) parentView {
-    parentView.superview.hidden = YES;
-    NSLayoutConstraint *heightConstraint;
-    for (NSLayoutConstraint *constraint in parentView.superview.constraints) {
-        if (constraint.firstAttribute == NSLayoutAttributeHeight) {
-            heightConstraint = constraint;
-            break;
+- (void) setRootViewController: (UIViewController*) arg1 {
+    UIView *view = MSHookIvar<UIView *>(arg1, "adContainerView");
+    NSLog(@"adContainerView %@", view);
+    if(view) {
+        view.hidden = YES;
+        NSLayoutConstraint *heightConstraint;
+        for (NSLayoutConstraint *constraint in view.constraints) {
+            if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+                heightConstraint = constraint;
+                break;
+            }
+        }
+        if(heightConstraint) {
+            heightConstraint.constant = 0;
         }
     }
-    if (heightConstraint) {
-        heightConstraint.constant = 0;
+}
+
+- (id) initWithAdParams: (id) params adView: (UIView *) parentView {
+    if (parentView.superview != NULL ){
+        parentView.superview.hidden = YES;
     }
     return %orig(params, parentView);
 }
