@@ -15,64 +15,49 @@
 // 5.x end
 
 // for 6.x
-
-// before 6.0.8
 %hook GADBannerView
 - (void) setRootViewController: (UIViewController *) arg1 {
+    %log(arg1);
     UIView *view = MSHookIvar<UIView *>(arg1, "adContainerView");
-    if(view) {
+    if (view) {
         view.hidden = YES;
-        NSLayoutConstraint *heightConstraint;
-        for (NSLayoutConstraint *constraint in view.constraints) {
-            if (constraint.firstAttribute == NSLayoutAttributeHeight) {
-                heightConstraint = constraint;
-                break;
-            }
-        }
-        if(heightConstraint) {
+        NSLayoutConstraint *heightConstraint = MSHookIvar<NSLayoutConstraint *>(arg1, "adContainerHeightConstraint");
+        if (heightConstraint) {
             heightConstraint.constant = 0;
+        }
+        for (UIView *subview in view.subviews) {
+            [subview removeFromSuperview];
         }
     }
 }
 %end // end hook
-// before 6.0.8
 
-// after 6.0.9
 %hook ADGManagerViewController
-- (void) setAdView: (UIView *) view {
-    
-}
-
-- (void) setRootViewController: (UIViewController*) arg1 {
+- (void) setRootViewController: (UIViewController *) arg1 {
+    %log(arg1);
     UIView *view = MSHookIvar<UIView *>(arg1, "adContainerView");
-    if(view) {
+    if (view) {
         view.hidden = YES;
-        NSLayoutConstraint *heightConstraint;
-        for (NSLayoutConstraint *constraint in view.constraints) {
-            if (constraint.firstAttribute == NSLayoutAttributeHeight) {
-                heightConstraint = constraint;
-                break;
-            }
-        }
-        if(heightConstraint) {
+        NSLayoutConstraint *heightConstraint = MSHookIvar<NSLayoutConstraint *>(arg1, "adContainerHeightConstraint");
+        if (heightConstraint) {
             heightConstraint.constant = 0;
         }
+        for (UIView *subview in view.subviews) {
+            [subview removeFromSuperview];
+        }
     }
 }
 
-- (id) initWithAdParams: (id) params adView: (UIView *) parentView {
-    if (parentView.superview != NULL ){
-        parentView.superview.hidden = YES;
+- (void) loadRequest {
+    id delegate = MSHookIvar<id>(self, "_delegate");
+    if (delegate) {
+        %log(delegate);
+        UIView *view = MSHookIvar<UIView *>(delegate, "_delegate");
+        if (view) {
+            %log(view);
+            [view removeFromSuperview];
+        }
     }
-    return %orig(params, parentView);
 }
 %end // end hook
-
-%hook FADAdViewW320H180
-- (void) loadAd {
-    
-}
-%end // end hook
-// end after 6.0.9
-
 // 6.x end
